@@ -1,118 +1,98 @@
 swagger: '2.0'
 info:
-  description: 'Describe the functionality'
+  description: Describe the functionality
   version: 1.0.0
   title: Service title
   contact:
-    name: 'Nome do LT responsável'
-    email: 'contato_responsavel@hdi.com.br'
+    name: Nome do LT responsável
+    email: contato_responsavel@hdi.com.br
     url: 'http://hdixbbs1:7990/projects/nome-do-template-find-be'
-  x-technical-owner: 'E-mail do Responsável Técnico'  
-  x-api-key: 'API Key de associação ao serviço'
-  
-host: 'api.template-find-be.endpoints.template-backoffice-dev.cloud.goog'
+  x-technical-owner: E-mail do Responsável Técnico
+  x-api-key: API Key de associação ao serviço
+host: api.template-find-be.endpoints.template-backoffice-dev.cloud.goog
 basePath: /business_uinit/domain/v1
-
 tags:
-  - name: 'business domain'
-    description: 'Describe business activities'
-    
+  - name: business domain
+    description: Describe business activities
 schemes:
   - https
-  
-securityDefinitions:
-  api_key:
-    type: apiKey
-    name: key
-    in: query
-  oauth2_key:
-    authorizationUrl: ''
-    flow: implicit
-    type: oauth2   
-    x-google-issuer: hdi-corporate-auth@ins-cross-security-auth-dev.iam.gserviceaccount.com
-    x-google-jwks_uri: https://www.googleapis.com/robot/v1/metadata/x509/hdi-corporate-auth@ins-cross-security-auth-dev.iam.gserviceaccount.com
-    x-google-audiences: api.hdi.com.br  
-    
 security:
   - api_key: []
-    oauth2_key: []    
-
+    oauth2_key: []
 parameters:
   applicationId:
     in: header
     name: X-Application-Id
     required: true
     type: string
-    description: 'Id of the Application that is using the API.'
-  userId: 
+    description: Id of the Application that is using the API.
+  userId:
     in: header
     name: X-User-Id
     required: true
     type: string
-    description: 'Id of the User that is using the API.'
+    description: Id of the User that is using the API.
   traceId:
     in: header
     name: X-Trace-Id
     required: true
     type: string
-    description: 'Trace ID that is using the API.'
-  companyId: 
+    description: Trace ID that is using the API.
+  companyId:
     in: query
     name: companyId
     required: true
     type: string
-    description: 'Id of the Company that is using the API.'
+    description: Id of the Company that is using the API.
   entity:
     in: body
     name: entity
     required: true
-    description: 'description about entity'
+    description: description about entity
     schema:
-      $ref: '#/definitions/Entity'   
-
+      $ref: '#/definitions/Entity'
 responses:
   200-Ok:
-    description: 'Successful Request'
+    description: Successful Request
     schema:
       $ref: '#/definitions/Entity'
   204-NoContent:
-    description: 'No content responses'
+    description: No content responses
   400-BadRequest:
-    description: 'Bad request'
+    description: Bad request
     schema:
       $ref: '#/definitions/ApiError'
   401-Unauthorized:
-    description: 'Unauthorized'
+    description: Unauthorized
     schema:
       $ref: '#/definitions/ApiError'
   403-Forbidden:
-    description: 'Forbidden'
+    description: Forbidden
     schema:
       $ref: '#/definitions/ApiError'
   404-NotFound:
-    description: 'Not found'
+    description: Not found
     schema:
       $ref: '#/definitions/ApiError'
   405-DataInvalid:
-    description: 'Data input not supplied or invalid'
+    description: Data input not supplied or invalid
     schema:
       $ref: '#/definitions/ApiError'
   453-BusinessError:
-    description: 'Business Exception'
+    description: Business Exception
     schema:
       $ref: '#/definitions/BusinessError'
   500-Exception:
-    description: 'Internal Server Error'
+    description: Internal Server Error
     schema:
       $ref: '#/definitions/ApiError'
-
 paths:
   /entity:
     get:
       tags:
         - business domain
       summary: entity
-      description: 'entity'
+      description: entity
       operationId: getEntidadesAdd
       consumes:
         - application/json
@@ -123,52 +103,15 @@ paths:
         - $ref: '#/parameters/userId'
         - $ref: '#/parameters/traceId'
         - $ref: '#/parameters/companyId'
-      responses:            
-        200:
-          $ref: '#/responses/200-Ok'
-        204:
-          $ref: '#/responses/204-NoContent'  
-        400:
-          $ref: '#/responses/400-BadRequest'
-        401:
-          $ref: '#/responses/401-Unauthorized'
-        403:
-          $ref: '#/responses/403-Forbidden'
-        404:
-          $ref: '#/responses/404-NotFound'
-        405:
-          $ref: '#/responses/405-DataInvalid'
-        453:
-          $ref: '#/responses/453-BusinessError'
-        500:
-          $ref: '#/responses/500-Exception'
-      deprecated: false
-      
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/Entity'
 definitions:
-   ApiError:
+  ApiError:
     type: object
-    description: 'Error API responses'
-    properties:
-      code:
-        type: integer
-        format: int32
-        description: 'Error ID'
-      message:
-        type: string
-        description: 'Error Description'
-      description:
-        type: string
-        description: 'Error Details'
-      errors:
-        type: array
-        description: 'Membership Erros'
-        items:
-          $ref: '#/definitions/Error'
-
-   BusinessError:
-    type: object
-    title: 'BusinessError'
-    description: 'Error API response'
+    description: Error API responses
     properties:
       code:
         type: integer
@@ -176,62 +119,79 @@ definitions:
         description: Error ID
       message:
         type: string
-        description: 'Error Details'
+        description: Error Description
       description:
         type: string
-        description: 'Error Details'
+        description: Error Details
       errors:
         type: array
-        description: 'Membership Errors'
+        description: Membership Erros
+        items:
+          $ref: '#/definitions/Error'
+  BusinessError:
+    type: object
+    title: BusinessError
+    description: Error API response
+    properties:
+      code:
+        type: integer
+        format: int32
+        description: Error ID
+      message:
+        type: string
+        description: Error Details
+      description:
+        type: string
+        description: Error Details
+      errors:
+        type: array
+        description: Membership Errors
         items:
           $ref: '#/definitions/Error'
       businessNotifications:
         type: array
-        description: 'Membership Errors'
+        description: Membership Errors
         items:
           $ref: '#/definitions/BusinessNotifications'
-    
-   Error:
+  Error:
     type: object
-    description: 'Error Entity'
+    description: Error Entity
     properties:
       code:
         type: string
-        description: 'Error ID'
+        description: Error ID
       message:
         type: string
-        description: 'Error Description'
+        description: Error Description
       nativeMessage:
         type: string
-        description: 'Native Error description'
+        description: Native Error description
       trackid:
         type: string
-        description: '(Optional) Track ID of transaction'
-
-   BusinessNotifications:
+        description: (Optional) Track ID of transaction
+  BusinessNotifications:
     type: object
-    description: 'Error Entity'
+    description: Error Entity
     properties:
       code:
         type: string
-        description: 'Error ID'
+        description: Error ID
       description:
         type: string
-        description: 'Error Description'
+        description: Error Description
       type:
         type: string
-        description: 'info | warning'
-        
-   Entity:
+        description: info | warning
+  Entity:
     type: object
-    description: 'Entity'
+    description: Entity
     title: Entity
     properties:
       id:
         type: number
         format: int32
-        description: 'id of Entity'
+        description: id of Entity
       code:
         type: number
         format: int32
-        description: 'code of de Entity'
+        description: code of de Entity
