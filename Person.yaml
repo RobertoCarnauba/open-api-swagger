@@ -1,0 +1,10 @@
+Person:
+  type: object
+  description: 'Person entity'
+  title: Person
+  properties:
+    id:
+      type: object
+      format: int64
+      description: 'Person id'
+      
